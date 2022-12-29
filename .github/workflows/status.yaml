@@ -1,9 +1,8 @@
 name: Check Discord Bot Status
 
 on:
-  schedule:
-    # Run this action every hour
-    - cron: '0 * * * *'
+  workflow_dispatch:
+    
 
 jobs:
   check-bot-status:
