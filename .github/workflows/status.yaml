@@ -1,9 +1,7 @@
 name: Check Bot Status
 
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   check_bot_status:
