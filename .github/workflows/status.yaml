@@ -1,24 +1,20 @@
 name: Check Bot Status
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - master
 
 jobs:
   check_bot_status:
     name: Check Bot Status
     runs-on: ubuntu-latest
     steps:
-      - name: Install dependencies
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14.x
-      - name: Install http-client
-        run: npm install http-client
       - name: Check bot status
-        run: node -e "const {get} = require('http-client'); get('https://discord.com/api/v6/users/658732840783052823/relationships').then(res => console.log(res.statusCode))"
+        run: curl -s -o /dev/null -w "%{http_code}" "https://discord.com/api/v6/users/658732840783052823/relationships"
       - name: Print result
         run: |
-          if [ "$(cat $GITHUB_EVENT_PATH | jq -r .statusCode)" -eq 200 ]; then
+          if [ "$(cat $GITHUB_EVENT_PATH | jq -r .output)" -eq 200 ]; then
             echo "Bot is online"
           else
             echo "Bot is offline"
